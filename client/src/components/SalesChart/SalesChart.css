@@ -1,0 +1,17 @@
+.sales-chart-container {
+  width: 100%;
+  height: 400px;
+  margin-top: 1rem;
+}
+
+.chart-loading, .chart-error, .chart-empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  color: var(--text-muted);
+}
+
+.chart-error {
+  color: var(--error);
+}

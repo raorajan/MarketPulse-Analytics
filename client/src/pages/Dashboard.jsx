@@ -1,5 +1,6 @@
 import React from 'react';
 import KPICards from '../components/KPICards';
+import SalesChart from '../components/SalesChart';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -24,6 +25,7 @@ const Dashboard = () => {
         {/* Sales Trend Chart Placeholder */}
         <section className="dashboard-section chart-section">
           <h2>Sales Trend</h2>
+          <SalesChart />
         </section>
 
         {/* Records Table Placeholder */}
