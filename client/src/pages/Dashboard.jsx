@@ -1,6 +1,7 @@
 import React from 'react';
 import KPICards from '../components/KPICards';
 import SalesChart from '../components/SalesChart';
+import DataTable from '../components/DataTable';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -31,6 +32,7 @@ const Dashboard = () => {
         {/* Records Table Placeholder */}
         <section className="dashboard-section table-section">
           <h2>Records</h2>
+          <DataTable />
         </section>
       </main>
     </div>
