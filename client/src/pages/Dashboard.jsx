@@ -1,4 +1,5 @@
 import React from 'react';
+import KPICards from '../components/KPICards';
 import './Dashboard.css';
 
 const Dashboard = () => {
@@ -17,6 +18,7 @@ const Dashboard = () => {
         {/* 4 KPI Cards Placeholder */}
         <section className="dashboard-section kpi-section">
           <h2>Key Metrics</h2>
+          <KPICards />
         </section>
 
         {/* Sales Trend Chart Placeholder */}
