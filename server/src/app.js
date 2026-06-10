@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const routes = require("./routes");
 const errorHandler = require("./middlewares/error.middleware");
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpecs = require("./config/swagger");
 
 const app = express();
 
@@ -17,6 +19,7 @@ app.get("/health", (req, res) => {
 });
 
 app.use("/api", routes);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 app.use(errorHandler);
 
