@@ -1,12 +1,12 @@
-import {
+const {
   pgTable,
   serial,
   varchar,
   numeric,
   timestamp,
-} from "drizzle-orm/pg-core";
+} = require("drizzle-orm/pg-core");
 
-export const salesData = pgTable("sales_data", {
+const salesData = pgTable("sales_data", {
   id: serial("id").primaryKey(),
 
   week: varchar("week", { length: 50 }).notNull(),
@@ -55,3 +55,5 @@ export const salesData = pgTable("sales_data", {
 
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
+
+module.exports = { salesData };
