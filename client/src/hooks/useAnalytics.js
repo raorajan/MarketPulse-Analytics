@@ -13,7 +13,12 @@ export const useAnalytics = () => {
       const data = await analyticsService.getSummary();
       setSummary(data);
     } catch (err) {
-      setError(err.response?.data?.message || err.message || 'Failed to fetch summary');
+      if (err.response?.status === 404 || err.message.includes('404')) {
+        setSummary(null);
+        setError('No data available. Please upload a CSV to get started.');
+      } else {
+        setError(err.response?.data?.message || err.message || 'Failed to fetch summary');
+      }
     } finally {
       setLoading(false);
     }

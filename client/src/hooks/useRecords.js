@@ -13,7 +13,20 @@ export const useRecords = () => {
       const data = await analyticsService.getRecords();
       setRecords(data || []);
     } catch (err) {
-      setError(err.response?.data?.message || err.message || 'Failed to fetch records');
+      // Handle 404 or empty data gracefully
+      if (err.response?.status === 404) {
+        setRecords([]);
+        setError(null); // clear error to show empty state instead
+      } else {
+        setError(
+          err.response?.data?.message || 
+          (err.message.includes('404') ? null : err.message) || 
+          'Failed to fetch records'
+        );
+        if (err.message.includes('404')) {
+          setRecords([]);
+        }
+      }
     } finally {
       setLoading(false);
     }
