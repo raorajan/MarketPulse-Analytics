@@ -1,17 +1,74 @@
+/* ── Sales Chart ── */
 .sales-chart-container {
   width: 100%;
-  height: 400px;
-  margin-top: 1rem;
+  height: 420px;
+  margin-top: 0.5rem;
 }
 
-.chart-loading, .chart-error, .chart-empty {
+/* Recharts overrides for dark theme */
+.sales-chart-container .recharts-cartesian-grid-horizontal line,
+.sales-chart-container .recharts-cartesian-grid-vertical line {
+  stroke: var(--border-color);
+}
+
+.sales-chart-container .recharts-tooltip-wrapper {
+  outline: none;
+}
+
+.sales-chart-tooltip {
+  background: var(--bg-elevated) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--radius-sm) !important;
+  padding: 0.75rem 1rem !important;
+  box-shadow: var(--shadow-lg) !important;
+}
+
+.sales-chart-tooltip .tooltip-label {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-bottom: 0.35rem;
+  font-weight: 500;
+}
+
+.sales-chart-tooltip .tooltip-value {
+  color: var(--text-main);
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+/* Loading / Error / Empty states */
+.chart-loading,
+.chart-error,
+.chart-empty {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 400px;
+  height: 420px;
   color: var(--text-muted);
+  gap: 0.75rem;
+  font-size: 0.95rem;
 }
 
 .chart-error {
   color: var(--error);
+}
+
+/* Skeleton */
+.chart-skeleton {
+  height: 420px;
+  border-radius: var(--radius-md);
+}
+
+@media (max-width: 640px) {
+  .sales-chart-container {
+    height: 300px;
+  }
+
+  .chart-loading,
+  .chart-error,
+  .chart-empty,
+  .chart-skeleton {
+    height: 300px;
+  }
 }

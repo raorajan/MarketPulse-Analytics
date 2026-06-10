@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// Base API setup for future backend integration
+// Base API instance pointing to backend
 const api = axios.create({
   baseURL: '/api',
   headers: {

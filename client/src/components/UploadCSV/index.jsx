@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { FiUploadCloud, FiFile, FiCheckCircle, FiAlertCircle } from 'react-icons/fi';
-import api from '../../services/api';
+import { uploadService } from '../../services/uploadService';
 import './UploadCSV.css';
 
-const UploadCSV = () => {
+const UploadCSV = ({ onUploadSuccess }) => {
   const [file, setFile] = useState(null);
   const [status, setStatus] = useState('idle'); // idle, uploading, success, error
   const [message, setMessage] = useState('');
+  const [recordCount, setRecordCount] = useState(0);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -30,35 +31,42 @@ const UploadCSV = () => {
     setMessage('');
 
     try {
-      // Simulate API call for uploading
-      const formData = new FormData();
-      formData.append('file', file);
-      
-      // In a real scenario, we would use api.post('/upload', formData)
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
+      const result = await uploadService.uploadCSV(file);
+
       setStatus('success');
-      setMessage('File uploaded successfully!');
+      setMessage(result.message || 'File uploaded successfully!');
+      setRecordCount(result.totalRecords || 0);
       setFile(null);
-      
-      // Reset after 3 seconds
+
+      // Reset the file input
+      const fileInput = document.getElementById('csv-upload');
+      if (fileInput) fileInput.value = '';
+
+      // Notify parent to refresh data
+      if (onUploadSuccess) {
+        onUploadSuccess();
+      }
+
+      // Auto-clear success after 5 seconds
       setTimeout(() => {
         setStatus('idle');
         setMessage('');
-      }, 3000);
+      }, 5000);
     } catch (error) {
       setStatus('error');
-      setMessage('Failed to upload file. Please try again.');
+      setMessage(
+        error.response?.data?.message || 'Failed to upload file. Please try again.'
+      );
     }
   };
 
   return (
     <div className="upload-container">
       <div className="upload-dropzone">
-        <input 
-          type="file" 
-          id="csv-upload" 
-          accept=".csv, text/csv" 
+        <input
+          type="file"
+          id="csv-upload"
+          accept=".csv, text/csv"
           onChange={handleFileChange}
           className="upload-input"
           disabled={status === 'uploading'}
@@ -73,25 +81,32 @@ const UploadCSV = () => {
             <div className="upload-placeholder">
               <FiUploadCloud className="upload-icon" />
               <span>Click to select a CSV file</span>
+              <span className="upload-hint">Supports .csv files</span>
             </div>
           )}
         </label>
       </div>
 
       <div className="upload-actions">
-        <button 
-          onClick={handleUpload} 
+        <button
+          id="upload-btn"
+          onClick={handleUpload}
           disabled={!file || status === 'uploading'}
           className={`upload-btn ${status === 'uploading' ? 'uploading' : ''}`}
         >
-          {status === 'uploading' ? 'Uploading...' : 'Upload Data'}
+          {status === 'uploading' ? 'Uploading...' : 'Upload'}
         </button>
       </div>
 
       {status === 'success' && (
         <div className="upload-message success">
           <FiCheckCircle className="message-icon" />
-          <span>{message}</span>
+          <span>
+            ✓ {message}
+            {recordCount > 0 && (
+              <span className="upload-record-count"> — {recordCount} records imported</span>
+            )}
+          </span>
         </div>
       )}
 
