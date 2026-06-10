@@ -1,4 +1,5 @@
 import React from 'react';
+import UploadCSV from '../components/UploadCSV';
 import KPICards from '../components/KPICards';
 import SalesChart from '../components/SalesChart';
 import DataTable from '../components/DataTable';
@@ -15,6 +16,7 @@ const Dashboard = () => {
         {/* Upload CSV Section Placeholder */}
         <section className="dashboard-section upload-section">
           <h2>Upload Data</h2>
+          <UploadCSV />
         </section>
 
         {/* 4 KPI Cards Placeholder */}
